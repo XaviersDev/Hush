@@ -61,34 +61,16 @@
 <div align="center">
   <table>
     <tr>
-      <td align="center">
-        <img src="https://raw.githubusercontent.com/XaviersDev/Hush/main/read_assets/screen1.png" width="300" alt="Главное меню" /><br />
-        <sub><b>здесь должна быть картинка главного меню но мне пока лень загружать если вы это видите то я ещё не загрузил картинку</b></sub>
-      </td>
-      <td align="center">
-        <img src="https://raw.githubusercontent.com/XaviersDev/Hush/main/read_assets/screen2.png" width="300" alt="Экранный оверлей" /><br />
-        <sub><b>здесь должна быть картинка экранного оверлея но мне пока лень загружать если вы это видите то я ещё не загрузил картинку</b></sub>
-      </td>
+      <td align="center"><img src="https://raw.githubusercontent.com/XaviersDev/Hush/main/read_assets/screen1.png" width="300" alt="Главное меню" /></td>
+      <td align="center"><img src="https://raw.githubusercontent.com/XaviersDev/Hush/main/read_assets/screen2.png" width="300" alt="Экранный оверлей" /></td>
     </tr>
     <tr>
-      <td align="center">
-        <img src="https://raw.githubusercontent.com/XaviersDev/Hush/main/read_assets/screen3.png" width="300" alt="Стили и кастомизация" /><br />
-        <sub><b>здесь должна быть картинка выбора стилей микрофона но мне пока лень загружать если вы это видите то я ещё не загрузил картинку</b></sub>
-      </td>
-      <td align="center">
-        <img src="https://raw.githubusercontent.com/XaviersDev/Hush/main/read_assets/screen4.png" width="300" alt="Бинды и мышь" /><br />
-        <sub><b>здесь должна быть картинка настройки хоткеев и кнопок мыши но мне пока лень загружать если вы это видите то я ещё не загрузил картинку</b></sub>
-      </td>
+      <td align="center"><img src="https://raw.githubusercontent.com/XaviersDev/Hush/main/read_assets/screen3.png" width="300" alt="Стили и кастомизация" /></td>
+      <td align="center"><img src="https://raw.githubusercontent.com/XaviersDev/Hush/main/read_assets/screen4.png" width="300" alt="Бинды и мышь" /></td>
     </tr>
     <tr>
-      <td align="center">
-        <img src="https://raw.githubusercontent.com/XaviersDev/Hush/main/read_assets/screen5.png" width="300" alt="Выбор устройств" /><br />
-        <sub><b>здесь должна быть картинка списка аудиоустройств но мне пока лень загружать если вы это видите то я ещё не загрузил картинку</b></sub>
-      </td>
-      <td align="center">
-        <img src="https://raw.githubusercontent.com/XaviersDev/Hush/main/read_assets/screen6.png" width="300" alt="Меню трея" /><br />
-        <sub><b>здесь должна быть картинка контекстного меню трея но мне пока лень загружать если вы это видите то я ещё не загрузил картинку</b></sub>
-      </td>
+      <td align="center"><img src="https://raw.githubusercontent.com/XaviersDev/Hush/main/read_assets/screen5.png" width="300" alt="Выбор устройств" /></td>
+      <td align="center"><img src="https://raw.githubusercontent.com/XaviersDev/Hush/main/read_assets/screen6.png" width="300" alt="Меню трея" /></td>
     </tr>
   </table>
 </div>
