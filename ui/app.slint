@@ -1,0 +1,1019 @@
+import "../assets/fonts/Inter.ttf";
+import { Tr } from "tr.slint";
+
+export { Tr }
+
+export struct KeyItem {
+    title: string,
+    hint: string,
+    value: string,
+    recording: bool,
+    bad: bool,
+}
+
+export struct DeviceItem {
+    name: string,
+    sub: string,
+    selected: bool,
+    font: string,
+}
+
+export global AppState {
+    in-out property <int> page: 0;
+    in-out property <bool> muted;
+    in-out property <bool> has-mic: true;
+    in-out property <string> target-title;
+    in-out property <string> target-sub;
+    in-out property <[DeviceItem]> devices;
+    in-out property <bool> picker-open;
+    in-out property <[DeviceItem]> languages;
+    in-out property <bool> lang-open;
+    in-out property <string> lang-name;
+    in-out property <string> toggle-key;
+
+    in-out property <bool> ov-enabled;
+    in-out property <int> ov-style;
+    in-out property <int> ov-click;
+    in-out property <int> ov-show;
+    in-out property <bool> ov-locked;
+    in-out property <float> ov-opacity: 1.0;
+    in-out property <bool> ov-hide-capture;
+    in-out property <[image]> styles-on;
+    in-out property <[image]> styles-off;
+    in-out property <[string]> style-names;
+
+    in-out property <[KeyItem]> keys;
+
+    in-out property <bool> autostart;
+    in-out property <bool> sound;
+    in-out property <int> tray-click;
+    in-out property <int> tray-style;
+    in-out property <bool> hold-state;
+    in-out property <string> version;
+
+    callback toggle-mic();
+    callback pick-device(int);
+    callback pick-lang(int);
+    callback set-bool(string, bool);
+    callback set-int(string, int);
+    callback set-float(string, float);
+    callback record-key(int);
+    callback clear-key(int);
+    callback reset-overlay();
+    callback open-taskbar-settings();
+    callback quit();
+}
+
+global T {
+    out property <color> bg: #0e0e10;
+    out property <color> sheet: #1a1a1d;
+    out property <color> card: #242428;
+    out property <color> card-hover: #2b2b30;
+    out property <color> line: #2a2a2f;
+    out property <color> text: #ece7e1;
+    out property <color> dim: #8f8b86;
+    out property <color> faint: #5f5c58;
+    out property <color> accent: #f2b27a;
+    out property <color> live: #ebdccb;
+    out property <color> mute: #f04e5a;
+}
+
+global Tip {
+    in-out property <string> text;
+    in-out property <string> owner;
+    in-out property <length> x;
+    in-out property <length> y;
+    in-out property <length> top;
+    in-out property <bool> shown;
+}
+
+component TipArea inherits TouchArea {
+    in property <string> hint;
+    in property <string> key;
+    changed has-hover => {
+        if (!self.has-hover && Tip.owner == root.key) {
+            Tip.shown = false;
+        }
+    }
+    Timer {
+        interval: 450ms;
+        running: root.has-hover && root.hint != "" && !(Tip.shown && Tip.owner == root.key);
+        triggered => {
+            Tip.text = root.hint;
+            Tip.owner = root.key;
+            Tip.x = root.absolute-position.x;
+            Tip.y = root.absolute-position.y + root.height + 4px;
+            Tip.top = root.absolute-position.y;
+            Tip.shown = true;
+        }
+    }
+}
+
+component Label inherits Rectangle {
+    in property <string> text;
+    in property <string> hint;
+    in property <length> font-size: 14px;
+    in property <color> fg: T.text;
+    callback clicked();
+    t := Text {
+        x: 0;
+        width: min(parent.width, self.preferred-width);
+        height: parent.height;
+        text: root.text;
+        color: root.fg;
+        font-size: root.font-size;
+        vertical-alignment: center;
+        overflow: elide;
+    }
+    TipArea {
+        x: 0;
+        width: t.width;
+        hint: root.hint;
+        key: root.text;
+        mouse-cursor: pointer;
+        clicked => { root.clicked(); }
+    }
+}
+
+component Icon inherits Image {
+    in property <color> tint: T.text;
+    colorize: self.tint;
+    image-fit: contain;
+}
+
+component Switch inherits Rectangle {
+    in-out property <bool> checked;
+    callback toggled(bool);
+    width: 40px;
+    height: 24px;
+    border-radius: 12px;
+    background: self.checked ? T.accent : T.card;
+    animate background { duration: 160ms; }
+    Rectangle {
+        y: 3px;
+        x: root.checked ? root.width - self.width - 3px : 3px;
+        width: 18px;
+        height: 18px;
+        border-radius: 9px;
+        background: root.checked ? #19140f : #8f8b86;
+        animate x, background { duration: 160ms; easing: ease-out; }
+    }
+    TouchArea {
+        mouse-cursor: pointer;
+        clicked => {
+            root.checked = !root.checked;
+            root.toggled(root.checked);
+        }
+    }
+}
+
+component Segmented inherits Rectangle {
+    in property <[string]> options;
+    in-out property <int> index;
+    callback changed(int);
+    property <length> seg: (self.width - 6px) / max(1, root.options.length);
+    height: 30px;
+    border-radius: 9px;
+    background: T.card;
+    Rectangle {
+        x: 3px + root.index * root.seg;
+        y: 3px;
+        width: root.seg;
+        height: root.height - 6px;
+        border-radius: 7px;
+        background: #393940;
+        animate x { duration: 170ms; easing: ease-out; }
+    }
+    for o[i] in root.options: Rectangle {
+        x: 3px + i * root.seg;
+        y: 3px;
+        width: root.seg;
+        height: root.height - 6px;
+        Text {
+            text: o;
+            font-size: 12px;
+            color: i == root.index ? T.text : T.dim;
+            horizontal-alignment: center;
+            vertical-alignment: center;
+            animate color { duration: 170ms; }
+        }
+        TouchArea {
+            mouse-cursor: pointer;
+            clicked => {
+                if (root.index != i) {
+                    root.index = i;
+                    root.changed(i);
+                }
+            }
+        }
+    }
+}
+
+component SwitchRow inherits Rectangle {
+    in property <string> title;
+    in property <string> hint;
+    in-out property <bool> checked;
+    callback toggled(bool);
+    height: 50px;
+    TouchArea {
+        clicked => {
+            root.checked = !root.checked;
+            root.toggled(root.checked);
+        }
+    }
+    Label {
+        x: 24px;
+        width: root.width - 48px - 52px;
+        height: root.height;
+        text: root.title;
+        hint: root.hint;
+        clicked => {
+            root.checked = !root.checked;
+            root.toggled(root.checked);
+        }
+    }
+    Switch {
+        x: root.width - 24px - self.width;
+        y: (root.height - self.height) / 2;
+        checked <=> root.checked;
+        toggled(v) => { root.toggled(v); }
+    }
+}
+
+component SegRow inherits Rectangle {
+    in property <string> title;
+    in property <string> hint;
+    in property <[string]> options;
+    in property <length> seg-width: 54px;
+    in-out property <int> index;
+    callback changed(int);
+    height: 50px;
+    Label {
+        x: 24px;
+        width: root.width - 48px - seg.width - 12px;
+        height: root.height;
+        text: root.title;
+        hint: root.hint;
+    }
+    seg := Segmented {
+        x: root.width - 24px - self.width;
+        y: (root.height - self.height) / 2;
+        width: root.options.length * root.seg-width + 6px;
+        options: root.options;
+        index <=> root.index;
+        changed(i) => { root.changed(i); }
+    }
+}
+
+component Button inherits Rectangle {
+    in property <string> text;
+    in property <color> fg: T.text;
+    callback clicked();
+    width: bt.preferred-width + 28px;
+    height: 30px;
+    border-radius: 9px;
+    background: ta.pressed ? #3a3a40 : ta.has-hover ? T.card-hover : T.card;
+    animate background { duration: 120ms; }
+    bt := Text {
+        text: root.text;
+        color: root.fg;
+        font-size: 12.5px;
+        horizontal-alignment: center;
+        vertical-alignment: center;
+    }
+    ta := TouchArea {
+        mouse-cursor: pointer;
+        clicked => { root.clicked(); }
+    }
+}
+
+component ButtonRow inherits Rectangle {
+    in property <string> title;
+    in property <string> hint;
+    in property <string> label;
+    callback clicked();
+    height: 50px;
+    Label {
+        x: 24px;
+        width: root.width - 48px - b.width - 12px;
+        height: root.height;
+        text: root.title;
+        hint: root.hint;
+    }
+    b := Button {
+        x: root.width - 24px - self.width;
+        y: (root.height - self.height) / 2;
+        text: root.label;
+        clicked => { root.clicked(); }
+    }
+}
+
+component SliderRow inherits Rectangle {
+    in property <string> title;
+    in property <string> hint;
+    in property <float> minimum: 0.2;
+    in property <float> maximum: 1.0;
+    in-out property <float> value;
+    callback changed(float);
+    height: 50px;
+    property <length> track-x: 24px + 120px;
+    property <length> track-w: root.width - self.track-x - 24px - 46px;
+    property <float> frac: (root.value - root.minimum) / (root.maximum - root.minimum);
+    function apply(mx: length) {
+        root.value = clamp(root.minimum + (root.maximum - root.minimum) * (mx - 10px) / root.track-w, root.minimum, root.maximum);
+    }
+    Label {
+        x: 24px;
+        width: 116px;
+        height: root.height;
+        text: root.title;
+        hint: root.hint;
+    }
+    Rectangle {
+        x: root.track-x;
+        y: (root.height - self.height) / 2;
+        width: root.track-w;
+        height: 4px;
+        border-radius: 2px;
+        background: T.card;
+        Rectangle {
+            x: 0;
+            width: parent.width * root.frac;
+            height: parent.height;
+            border-radius: 2px;
+            background: T.accent;
+        }
+    }
+    knob := Rectangle {
+        x: root.track-x + root.track-w * root.frac - self.width / 2;
+        y: (root.height - self.height) / 2;
+        width: 16px;
+        height: 16px;
+        border-radius: 8px;
+        background: ta.pressed || ta.has-hover ? #ffffff : T.live;
+    }
+    Text {
+        x: root.width - 24px - 40px;
+        width: 40px;
+        height: root.height;
+        text: round(root.value * 100) + "%";
+        color: T.dim;
+        font-size: 12.5px;
+        horizontal-alignment: right;
+        vertical-alignment: center;
+    }
+    ta := TouchArea {
+        x: root.track-x - 10px;
+        width: root.track-w + 20px;
+        mouse-cursor: pointer;
+        pointer-event(e) => {
+            if (e.kind == PointerEventKind.down) {
+                root.apply(self.mouse-x);
+            }
+            if (e.kind == PointerEventKind.up) {
+                root.changed(root.value);
+            }
+        }
+        moved => {
+            if (self.pressed) {
+                root.apply(self.mouse-x);
+            }
+        }
+    }
+}
+
+component KeyRow inherits Rectangle {
+    in property <KeyItem> item;
+    callback record();
+    callback clear();
+    height: 52px;
+    Label {
+        x: 24px;
+        width: chip.x - 24px - 10px;
+        height: root.height;
+        text: root.item.title;
+        hint: root.item.hint;
+    }
+    property <bool> has-value: root.item.value != "";
+    chip := Rectangle {
+        width: max(96px, ct.preferred-width + 24px);
+        height: 32px;
+        x: root.width - 24px - (root.has-value ? 30px : 0px) - self.width;
+        y: (root.height - self.height) / 2;
+        border-radius: 9px;
+        background: root.item.recording ? #2d2620 : cta.has-hover ? T.card-hover : T.card;
+        border-width: root.item.recording ? 1px : 0px;
+        border-color: T.accent;
+        animate background { duration: 120ms; }
+        ct := Text {
+            text: root.item.recording ? Tr.press-key : root.has-value ? root.item.value : Tr.not-set;
+            color: root.item.recording ? T.accent : root.item.bad ? T.mute : root.has-value ? T.text : T.faint;
+            font-size: 12.5px;
+            horizontal-alignment: center;
+            vertical-alignment: center;
+        }
+        cta := TouchArea {
+            mouse-cursor: pointer;
+            clicked => { root.record(); }
+        }
+    }
+    if root.has-value: Rectangle {
+        x: root.width - 24px - 26px;
+        y: (root.height - 26px) / 2;
+        width: 26px;
+        height: 26px;
+        border-radius: 8px;
+        background: xa.has-hover ? T.card : transparent;
+        Icon {
+            width: 16px;
+            height: 16px;
+            source: @image-url("../assets/icons/x.svg");
+            tint: xa.has-hover ? T.text : T.faint;
+        }
+        xa := TouchArea {
+            mouse-cursor: pointer;
+            clicked => { root.clear(); }
+        }
+    }
+}
+
+component PageTitle inherits Text {
+    x: 24px;
+    y: 22px;
+    font-size: 22px;
+    font-weight: 600;
+    color: T.text;
+}
+
+component Caption inherits Text {
+    x: 24px;
+    font-size: 12px;
+    color: T.faint;
+}
+
+component Home inherits Rectangle {
+    property <bool> live: AppState.has-mic && !AppState.muted;
+    property <color> ring: !AppState.has-mic ? T.faint : AppState.muted ? T.mute : T.live;
+    property <length> d: 196px;
+    property <length> cy: 236px;
+    animate ring { duration: 220ms; }
+
+    Rectangle {
+        width: root.d * 1.9;
+        height: self.width;
+        x: (root.width - self.width) / 2;
+        y: root.cy - self.height / 2;
+        opacity: root.live ? 1 : 0;
+        animate opacity { duration: 260ms; }
+        background: @radial-gradient(circle, #ebdccb30 0%, #ebdccb12 32%, #ebdccb00 52%);
+    }
+    Rectangle {
+        width: root.d * 1.9;
+        height: self.width;
+        x: (root.width - self.width) / 2;
+        y: root.cy - self.height / 2;
+        opacity: AppState.has-mic && AppState.muted ? 1 : 0;
+        animate opacity { duration: 260ms; }
+        background: @radial-gradient(circle, #f04e5a2e 0%, #f04e5a10 32%, #f04e5a00 52%);
+    }
+    Rectangle {
+        width: root.d + 10px;
+        height: self.width;
+        x: (root.width - self.width) / 2;
+        y: root.cy - self.height / 2;
+        border-radius: self.width / 2;
+        border-width: 6px;
+        border-color: root.ring.with-alpha(0.10);
+    }
+    ring-el := Rectangle {
+        width: root.d;
+        height: root.d;
+        x: (root.width - self.width) / 2;
+        y: root.cy - self.height / 2;
+        border-radius: self.width / 2;
+        border-width: 2.5px;
+        border-color: root.ring;
+        background: ta.pressed ? #ffffff0c : ta.has-hover ? #ffffff06 : #ffffff00;
+        animate background { duration: 140ms; }
+        Icon {
+            width: 46px;
+            height: 46px;
+            x: (parent.width - self.width) / 2;
+            y: parent.height / 2 - self.height + 4px;
+            source: AppState.muted || !AppState.has-mic ? @image-url("../assets/icons/mic-off.svg") : @image-url("../assets/icons/mic.svg");
+            tint: root.ring;
+        }
+        Text {
+            y: parent.height / 2 + 18px;
+            width: parent.width;
+            horizontal-alignment: center;
+            text: !AppState.has-mic ? Tr.no-mic : AppState.muted ? Tr.mic-off : Tr.mic-on;
+            color: T.text;
+            font-size: 17px;
+        }
+        ta := TouchArea {
+            enabled: AppState.has-mic;
+            mouse-cursor: pointer;
+            clicked => { AppState.toggle-mic(); }
+        }
+    }
+
+    Rectangle {
+        y: root.cy + root.d / 2 + 70px;
+        height: 32px;
+        width: kt.preferred-width + 26px;
+        x: (root.width - self.width) / 2;
+        kt := Text {
+            x: 0;
+            text: AppState.toggle-key == "" ? Tr.hotkey-none : Tr.hotkey-label + "  " + AppState.toggle-key;
+            color: ka.has-hover ? T.text : T.dim;
+            font-size: 13.5px;
+            vertical-alignment: center;
+            height: parent.height;
+        }
+        Icon {
+            x: kt.width + 6px;
+            y: (parent.height - self.height) / 2;
+            width: 16px;
+            height: 16px;
+            source: @image-url("../assets/icons/chev-right.svg");
+            tint: kt.color;
+        }
+        ka := TouchArea {
+            mouse-cursor: pointer;
+            clicked => { AppState.page = 2; }
+        }
+    }
+}
+
+component Nav inherits Rectangle {
+    height: 64px;
+    Rectangle {
+        y: 0;
+        height: 1px;
+        background: T.line;
+    }
+    for ic[i] in [
+        @image-url("../assets/icons/home.svg"),
+        @image-url("../assets/icons/overlay.svg"),
+        @image-url("../assets/icons/keys.svg"),
+        @image-url("../assets/icons/gear.svg"),
+    ]: Rectangle {
+        x: 34px + i * (root.width - 68px) / 4;
+        width: (root.width - 68px) / 4;
+        height: root.height;
+        Icon {
+            width: 24px;
+            height: 24px;
+            source: ic;
+            tint: AppState.page == i ? T.accent : na.has-hover ? T.text : T.dim;
+            animate tint { duration: 150ms; }
+        }
+        na := TouchArea {
+            mouse-cursor: pointer;
+            clicked => {
+                Tip.shown = false;
+                AppState.picker-open = false;
+                AppState.lang-open = false;
+                AppState.page = i;
+            }
+        }
+    }
+}
+
+component Sheet inherits Rectangle {
+    property <bool> home: AppState.page == 0;
+    background: T.sheet;
+    border-top-left-radius: 22px;
+    border-top-right-radius: 22px;
+    height: self.home ? 196px : 64px;
+    animate height { duration: 240ms; easing: ease-out; }
+    clip: true;
+    Rectangle {
+        y: 10px;
+        x: (parent.width - self.width) / 2;
+        width: 34px;
+        height: 4px;
+        border-radius: 2px;
+        background: #3a3a40;
+        opacity: root.home ? 1 : 0;
+    }
+    Rectangle {
+        y: 26px;
+        height: 100px;
+        opacity: root.home ? 1 : 0;
+        animate opacity { duration: 180ms; }
+        visible: self.opacity > 0.01;
+        tt := Text {
+            y: 10px;
+            x: (parent.width - self.width - 30px) / 2;
+            text: AppState.target-title;
+            font-size: 30px;
+            color: T.text;
+            width: min(self.preferred-width, parent.width - 90px);
+            overflow: elide;
+        }
+        Icon {
+            x: tt.x + tt.width + 8px;
+            y: tt.y + (tt.height - self.height) / 2 + 2px;
+            width: 20px;
+            height: 20px;
+            source: @image-url("../assets/icons/chev-down.svg");
+            tint: T.text;
+        }
+        Text {
+            y: tt.y + tt.height + 10px;
+            x: 24px;
+            width: parent.width - 48px;
+            horizontal-alignment: center;
+            text: AppState.target-sub;
+            color: T.dim;
+            font-size: 13px;
+            overflow: elide;
+        }
+        TouchArea {
+            mouse-cursor: pointer;
+            clicked => { AppState.picker-open = true; }
+        }
+    }
+    Nav {
+        y: root.height - self.height;
+        width: root.width;
+    }
+}
+
+component Picker inherits Rectangle {
+    in property <bool> open;
+    in property <string> title;
+    in property <[DeviceItem]> items;
+    callback picked(int);
+    callback close();
+    property <length> sheet-h: min(root.height - 120px, 92px + root.items.length * 52px);
+    Rectangle {
+        background: #000000;
+        opacity: root.open ? 0.55 : 0;
+        animate opacity { duration: 200ms; }
+        visible: self.opacity > 0.01;
+        TouchArea {
+            clicked => { root.close(); }
+        }
+    }
+    Rectangle {
+        y: root.open ? root.height - root.sheet-h : root.height + 10px;
+        animate y { duration: 240ms; easing: ease-out; }
+        height: root.sheet-h;
+        background: T.sheet;
+        border-top-left-radius: 22px;
+        border-top-right-radius: 22px;
+        TouchArea { }
+        Rectangle {
+            y: 10px;
+            x: (parent.width - self.width) / 2;
+            width: 34px;
+            height: 4px;
+            border-radius: 2px;
+            background: #3a3a40;
+        }
+        Text {
+            x: 24px;
+            y: 30px;
+            text: root.title;
+            color: T.dim;
+            font-size: 13px;
+        }
+        Flickable {
+            y: 62px;
+            height: parent.height - 62px - 16px;
+            content-height: root.items.length * 52px;
+            for d[i] in root.items: Rectangle {
+                y: i * 52px;
+                height: 52px;
+                background: da.has-hover ? #ffffff07 : transparent;
+                Text {
+                    x: 24px;
+                    y: d.sub == "" ? (parent.height - self.height) / 2 : 8px;
+                    width: parent.width - 48px - 30px;
+                    text: d.name;
+                    font-family: d.font;
+                    color: T.text;
+                    font-size: 15px;
+                    overflow: elide;
+                }
+                if d.sub != "": Text {
+                    x: 24px;
+                    y: 29px;
+                    width: parent.width - 48px - 30px;
+                    text: d.sub;
+                    color: T.dim;
+                    font-size: 12px;
+                    overflow: elide;
+                }
+                if d.selected: Icon {
+                    x: parent.width - 24px - 20px;
+                    y: (parent.height - self.height) / 2;
+                    width: 20px;
+                    height: 20px;
+                    source: @image-url("../assets/icons/check.svg");
+                    tint: T.accent;
+                }
+                da := TouchArea {
+                    mouse-cursor: pointer;
+                    clicked => { root.picked(i); }
+                }
+            }
+        }
+    }
+}
+
+component OverlayPage inherits Rectangle {
+    property <length> tile: (root.width - 48px - 4 * 10px) / 5;
+    PageTitle { text: Tr.overlay; }
+    Flickable {
+        y: 66px;
+        height: root.height - 66px;
+        content-height: 586px;
+        SwitchRow {
+            y: 0;
+            width: root.width;
+            title: Tr.show;
+            hint: Tr.show-hint;
+            checked <=> AppState.ov-enabled;
+            toggled(v) => { AppState.set-bool("ov-enabled", v); }
+        }
+        Caption {
+            y: 58px;
+            text: Tr.style;
+        }
+        for img[i] in AppState.muted ? AppState.styles-off : AppState.styles-on: Rectangle {
+            x: 24px + mod(i, 5) * (root.tile + 10px);
+            y: 82px + floor(i / 5) * (root.tile + 10px);
+            width: root.tile;
+            height: root.tile;
+            border-radius: 13px;
+            background: sa.has-hover ? T.card-hover : T.card;
+            border-width: AppState.ov-style == i ? 1.5px : 0px;
+            border-color: T.accent;
+            animate background { duration: 120ms; }
+            Image {
+                width: parent.width * 0.62;
+                height: self.width;
+                source: img;
+                image-fit: contain;
+            }
+            sa := TipArea {
+                hint: AppState.style-names[i];
+                key: "style" + i;
+                mouse-cursor: pointer;
+                clicked => {
+                    AppState.ov-style = i;
+                    AppState.set-int("ov-style", i);
+                }
+            }
+        }
+        SegRow {
+            y: 82px + 2 * (root.tile + 10px) + 6px;
+            width: root.width;
+            title: Tr.click;
+            hint: Tr.click-hint;
+            options: [Tr.opt-none, Tr.opt-lmb, Tr.opt-rmb, Tr.opt-mmb];
+            index <=> AppState.ov-click;
+            changed(i) => { AppState.set-int("ov-click", i); }
+        }
+        SegRow {
+            y: 82px + 2 * (root.tile + 10px) + 56px;
+            width: root.width;
+            title: Tr.visible-when;
+            hint: Tr.visible-hint;
+            options: [Tr.opt-always, Tr.opt-off, Tr.opt-on];
+            seg-width: 62px;
+            index <=> AppState.ov-show;
+            changed(i) => { AppState.set-int("ov-show", i); }
+        }
+        SwitchRow {
+            y: 82px + 2 * (root.tile + 10px) + 106px;
+            width: root.width;
+            title: Tr.lock;
+            hint: Tr.lock-hint;
+            checked <=> AppState.ov-locked;
+            toggled(v) => { AppState.set-bool("ov-locked", v); }
+        }
+        SliderRow {
+            y: 82px + 2 * (root.tile + 10px) + 156px;
+            width: root.width;
+            title: Tr.opacity;
+            value <=> AppState.ov-opacity;
+            changed(v) => { AppState.set-float("ov-opacity", v); }
+        }
+        SwitchRow {
+            y: 82px + 2 * (root.tile + 10px) + 206px;
+            width: root.width;
+            title: Tr.hide-capture;
+            hint: Tr.hide-capture-hint;
+            checked <=> AppState.ov-hide-capture;
+            toggled(v) => { AppState.set-bool("ov-hide-capture", v); }
+        }
+        ButtonRow {
+            y: 82px + 2 * (root.tile + 10px) + 256px;
+            width: root.width;
+            title: Tr.position;
+            hint: Tr.position-hint;
+            label: Tr.reset;
+            clicked => { AppState.reset-overlay(); }
+        }
+        Caption {
+            y: 82px + 2 * (root.tile + 10px) + 318px;
+            width: root.width - 48px;
+            wrap: word-wrap;
+            text: Tr.overlay-help;
+        }
+    }
+}
+
+component KeysPage inherits Rectangle {
+    PageTitle { text: Tr.hotkeys; }
+    for k[i] in AppState.keys: KeyRow {
+        y: 70px + i * 54px;
+        width: root.width;
+        item: k;
+        record => { AppState.record-key(i); }
+        clear => { AppState.clear-key(i); }
+    }
+    Caption {
+        y: 70px + AppState.keys.length * 54px + 16px;
+        width: root.width - 48px;
+        wrap: word-wrap;
+        text: Tr.keys-help;
+    }
+}
+
+component SettingsPage inherits Rectangle {
+    PageTitle { text: Tr.settings; }
+    ButtonRow {
+        y: 66px;
+        width: root.width;
+        title: Tr.language;
+        label: AppState.lang-name;
+        clicked => { AppState.lang-open = true; }
+    }
+    SwitchRow {
+        y: 116px;
+        width: root.width;
+        title: Tr.autostart;
+        hint: Tr.autostart-hint;
+        checked <=> AppState.autostart;
+        toggled(v) => { AppState.set-bool("autostart", v); }
+    }
+    SwitchRow {
+        y: 166px;
+        width: root.width;
+        title: Tr.sound;
+        hint: Tr.sound-hint;
+        checked <=> AppState.sound;
+        toggled(v) => { AppState.set-bool("sound", v); }
+    }
+    SegRow {
+        y: 216px;
+        width: root.width;
+        title: Tr.tray-click;
+        hint: Tr.tray-click-hint;
+        options: [Tr.opt-mic, Tr.opt-window];
+        seg-width: 76px;
+        index <=> AppState.tray-click;
+        changed(i) => { AppState.set-int("tray-click", i); }
+    }
+    SegRow {
+        y: 266px;
+        width: root.width;
+        title: Tr.tray-icon;
+        hint: Tr.tray-icon-hint;
+        options: [Tr.opt-badge, Tr.opt-glyph];
+        seg-width: 76px;
+        index <=> AppState.tray-style;
+        changed(i) => { AppState.set-int("tray-style", i); }
+    }
+    ButtonRow {
+        y: 316px;
+        width: root.width;
+        title: Tr.taskbar-icon;
+        hint: Tr.taskbar-icon-hint;
+        label: Tr.open;
+        clicked => { AppState.open-taskbar-settings(); }
+    }
+    SwitchRow {
+        y: 366px;
+        width: root.width;
+        title: Tr.hold-state;
+        hint: Tr.hold-state-hint;
+        checked <=> AppState.hold-state;
+        toggled(v) => { AppState.set-bool("hold-state", v); }
+    }
+    Text {
+        x: 24px;
+        y: root.height - 46px;
+        height: 30px;
+        vertical-alignment: center;
+        text: "Hush " + AppState.version + "  by AlliSighs";
+        color: T.faint;
+        font-size: 12px;
+    }
+    Button {
+        x: root.width - 24px - self.width;
+        y: root.height - 46px;
+        text: Tr.quit;
+        fg: #e8868c;
+        clicked => { AppState.quit(); }
+    }
+}
+
+export component AppWindow inherits Window {
+    title: "Hush";
+    icon: @image-url("../assets/app.png");
+    width: 380px;
+    height: 700px;
+    background: T.bg;
+    default-font-size: 14px;
+    default-font-family: Tr.font;
+
+    property <length> page-h: root.height - 64px;
+    property <int> current-page: AppState.page;
+    changed current-page => {
+        Tip.shown = false;
+    }
+
+    if AppState.page == 0: Home {
+        y: 0;
+        width: root.width;
+        height: root.height - 196px;
+    }
+    if AppState.page == 1: OverlayPage {
+        y: 0;
+        width: root.width;
+        height: root.page-h;
+    }
+    if AppState.page == 2: KeysPage {
+        y: 0;
+        width: root.width;
+        height: root.page-h;
+    }
+    if AppState.page == 3: SettingsPage {
+        y: 0;
+        width: root.width;
+        height: root.page-h;
+    }
+
+    Sheet {
+        width: root.width;
+        y: root.height - self.height;
+    }
+
+    Picker {
+        width: root.width;
+        height: root.height;
+        open: AppState.picker-open;
+        title: Tr.picker-title;
+        items: AppState.devices;
+        picked(i) => {
+            AppState.pick-device(i);
+            AppState.picker-open = false;
+        }
+        close => { AppState.picker-open = false; }
+    }
+
+    Picker {
+        width: root.width;
+        height: root.height;
+        open: AppState.lang-open;
+        title: Tr.language;
+        items: AppState.languages;
+        picked(i) => {
+            AppState.lang-open = false;
+            AppState.pick-lang(i);
+        }
+        close => { AppState.lang-open = false; }
+    }
+
+    if Tip.shown: Rectangle {
+        property <length> w: min(250px, tip-text.preferred-width + 22px);
+        property <bool> flip: Tip.y + 80px > root.height - 64px;
+        x: clamp(Tip.x - 6px, 12px, root.width - self.w - 12px);
+        y: self.flip ? Tip.top - self.height - 4px : Tip.y;
+        width: self.w;
+        height: tip-layout.preferred-height;
+        border-radius: 10px;
+        background: #2e2e33;
+        border-width: 1px;
+        border-color: #3a3a41;
+        tip-layout := VerticalLayout {
+            padding-left: 11px;
+            padding-right: 11px;
+            padding-top: 8px;
+            padding-bottom: 8px;
+            tip-text := Text {
+                text: Tip.text;
+                color: T.text;
+                font-size: 12.5px;
+                wrap: word-wrap;
+            }
+        }
+    }
+}

@@ -1,0 +1,932 @@
+# One block per key. Language order: ru en zh ja ko de es uk
+# \n is a line break.
+
+@mic_on
+ru Включен
+en On
+zh 已开启
+ja オン
+ko 켜짐
+de An
+es Activado
+uk Увімкнено
+
+@mic_off
+ru Выключен
+en Muted
+zh 已关闭
+ja オフ
+ko 꺼짐
+de Stumm
+es Silenciado
+uk Вимкнено
+
+@no_mic
+ru Нет микрофона
+en No microphone
+zh 未找到麦克风
+ja マイクがありません
+ko 마이크 없음
+de Kein Mikrofon
+es Sin micrófono
+uk Немає мікрофона
+
+@hotkey_label
+ru Горячая клавиша
+en Hotkey
+zh 快捷键
+ja ショートカット
+ko 단축키
+de Tastenkürzel
+es Atajo
+uk Гаряча клавіша
+
+@hotkey_none
+ru Горячая клавиша не задана
+en No hotkey set
+zh 未设置快捷键
+ja ショートカット未設定
+ko 단축키 없음
+de Kein Tastenkürzel
+es Sin atajo
+uk Гарячу клавішу не задано
+
+@picker_title
+ru Какой микрофон выключать
+en Which mic to mute
+zh 要静音的麦克风
+ja ミュートするマイク
+ko 음소거할 마이크
+de Welches Mikro stummschalten
+es Qué micrófono silenciar
+uk Який мікрофон вимикати
+
+@overlay
+ru Оверлей
+en Overlay
+zh 悬浮图标
+ja オーバーレイ
+ko 오버레이
+de Overlay
+es Overlay
+uk Оверлей
+
+@show
+ru Показывать
+en Show
+zh 显示
+ja 表示
+ko 표시
+de Anzeigen
+es Mostrar
+uk Показувати
+
+@show_hint
+ru В играх только в оконном или безрамочном режиме
+en In games only in windowed or borderless mode
+zh 游戏中仅在窗口或无边框模式下可见
+ja ゲームではウィンドウかボーダーレスのみ
+ko 게임에서는 창 모드나 테두리 없는 창에서만 보입니다
+de In Spielen nur im Fenster- oder randlosen Modus
+es En juegos solo en modo ventana o sin bordes
+uk В іграх лише у віконному або безрамковому режимі
+
+@style
+ru Стиль
+en Style
+zh 样式
+ja スタイル
+ko 스타일
+de Stil
+es Estilo
+uk Стиль
+
+@click
+ru Клик
+en Click
+zh 点击
+ja クリック
+ko 클릭
+de Klick
+es Clic
+uk Клік
+
+@click_hint
+ru Чем жать по оверлею, чтобы переключить микрофон
+en Which mouse button on the overlay toggles the mic
+zh 用哪个鼠标键点击悬浮图标切换麦克风
+ja どのボタンでオーバーレイを押すとマイクが切り替わるか
+ko 오버레이를 어떤 버튼으로 눌러 마이크를 전환할지
+de Welche Maustaste auf dem Overlay das Mikro umschaltet
+es Qué botón del ratón sobre el overlay cambia el micro
+uk Якою кнопкою миші по оверлею перемикати мікрофон
+
+@opt_none
+ru Нет
+en Off
+zh 无
+ja なし
+ko 없음
+de Aus
+es No
+uk Ні
+
+@opt_lmb
+ru ЛКМ
+en Left
+zh 左键
+ja 左
+ko 왼쪽
+de Links
+es Izq.
+uk ЛКМ
+
+@opt_rmb
+ru ПКМ
+en Right
+zh 右键
+ja 右
+ko 오른쪽
+de Rechts
+es Der.
+uk ПКМ
+
+@opt_mmb
+ru Колесо
+en Wheel
+zh 中键
+ja ホイール
+ko 휠
+de Rad
+es Rueda
+uk Колесо
+
+@visible_when
+ru Когда видно
+en Visible
+zh 何时显示
+ja 表示条件
+ko 표시 조건
+de Sichtbar
+es Visible
+uk Коли видно
+
+@visible_hint
+ru Выкл - только когда микрофон выключен\nВкл - только когда включен
+en Muted - only while the mic is muted\nOn - only while it is live
+zh 关 - 仅在麦克风关闭时\n开 - 仅在麦克风开启时
+ja オフ - マイクがオフのときだけ\nオン - オンのときだけ
+ko 끔 - 마이크가 꺼져 있을 때만\n켬 - 켜져 있을 때만
+de Aus - nur wenn das Mikro stumm ist\nAn - nur wenn es an ist
+es Desact. - solo con el micro silenciado\nAct. - solo con el micro activo
+uk Вимк - лише коли мікрофон вимкнено\nУвімк - лише коли увімкнено
+
+@opt_always
+ru Всегда
+en Always
+zh 始终
+ja 常に
+ko 항상
+de Immer
+es Siempre
+uk Завжди
+
+@opt_off
+ru Выкл
+en Muted
+zh 关
+ja オフ
+ko 끔
+de Aus
+es Desact.
+uk Вимк
+
+@opt_on
+ru Вкл
+en On
+zh 开
+ja オン
+ko 켬
+de An
+es Act.
+uk Увімк
+
+@lock
+ru Закрепить
+en Lock
+zh 锁定
+ja 固定
+ko 고정
+de Fixieren
+es Fijar
+uk Закріпити
+
+@lock_hint
+ru Не двигается. Если клик "Нет", мышь проходит насквозь
+en Can't be moved. With click off, the mouse goes through it
+zh 无法移动。点击设为“无”时鼠标可穿透
+ja 動かせません。クリックが「なし」ならマウスは素通りします
+ko 움직일 수 없습니다. 클릭이 '없음'이면 마우스가 통과합니다
+de Nicht verschiebbar. Ist Klick aus, geht die Maus hindurch
+es No se mueve. Con clic en "No", el ratón lo atraviesa
+uk Не рухається. Якщо клік "Ні", миша проходить наскрізь
+
+@opacity
+ru Прозрачность
+en Opacity
+zh 不透明度
+ja 不透明度
+ko 불투명도
+de Deckkraft
+es Opacidad
+uk Прозорість
+
+@hide_capture
+ru Скрыть от записи
+en Hide from capture
+zh 录屏时隐藏
+ja 録画に映さない
+ko 녹화에서 숨기기
+de Bei Aufnahme verbergen
+es Ocultar en capturas
+uk Сховати від запису
+
+@hide_capture_hint
+ru Не видно в OBS, Discord и на скриншотах
+en Not visible in OBS, Discord or screenshots
+zh 在 OBS、Discord 和截图中不可见
+ja OBS、Discord、スクリーンショットに映りません
+ko OBS, Discord, 스크린샷에 보이지 않습니다
+de Unsichtbar in OBS, Discord und Screenshots
+es No se ve en OBS, Discord ni en capturas
+uk Не видно в OBS, Discord і на скриншотах
+
+@position
+ru Положение
+en Position
+zh 位置
+ja 位置
+ko 위치
+de Position
+es Posición
+uk Положення
+
+@position_hint
+ru Вернуть в угол экрана
+en Move back to the screen corner
+zh 移回屏幕角落
+ja 画面の隅に戻す
+ko 화면 모서리로 되돌리기
+de Zurück in die Bildschirmecke
+es Volver a la esquina de la pantalla
+uk Повернути в кут екрана
+
+@reset
+ru Сбросить
+en Reset
+zh 重置
+ja リセット
+ko 초기화
+de Zurücksetzen
+es Restablecer
+uk Скинути
+
+@overlay_help
+ru ЛКМ - двигать\nУгол или колесо - размер
+en Drag - move\nCorner or wheel - resize
+zh 拖动 - 移动\n角落或滚轮 - 调整大小
+ja ドラッグ - 移動\n角かホイール - サイズ
+ko 드래그 - 이동\n모서리 또는 휠 - 크기
+de Ziehen - verschieben\nEcke oder Rad - Größe
+es Arrastrar - mover\nEsquina o rueda - tamaño
+uk ЛКМ - рухати\nКут або коліщатко - розмір
+
+@hotkeys
+ru Горячие клавиши
+en Hotkeys
+zh 快捷键
+ja ショートカット
+ko 단축키
+de Tastenkürzel
+es Atajos
+uk Гарячі клавіші
+
+@press_key
+ru Нажми клавишу
+en Press a key
+zh 请按键
+ja キーを押す
+ko 키를 누르세요
+de Taste drücken
+es Pulsa una tecla
+uk Натисни клавішу
+
+@not_set
+ru Не задано
+en Not set
+zh 未设置
+ja 未設定
+ko 없음
+de Nicht belegt
+es Sin asignar
+uk Не задано
+
+@keys_help
+ru Esc - отменить\nBackspace - сбросить
+en Esc - cancel\nBackspace - clear
+zh Esc - 取消\nBackspace - 清除
+ja Esc - キャンセル\nBackspace - 解除
+ko Esc - 취소\nBackspace - 지우기
+de Esc - abbrechen\nBackspace - löschen
+es Esc - cancelar\nBackspace - borrar
+uk Esc - скасувати\nBackspace - скинути
+
+@settings
+ru Настройки
+en Settings
+zh 设置
+ja 設定
+ko 설정
+de Einstellungen
+es Ajustes
+uk Налаштування
+
+@autostart
+ru Автозапуск
+en Start with Windows
+zh 开机启动
+ja 自動起動
+ko 자동 시작
+de Autostart
+es Inicio automático
+uk Автозапуск
+
+@autostart_hint
+ru Запуск вместе с Windows, сразу в трей
+en Starts with Windows, straight to the tray
+zh 随 Windows 启动，直接进入托盘
+ja Windows と一緒にトレイで起動
+ko Windows와 함께 트레이에서 시작
+de Startet mit Windows direkt im Tray
+es Arranca con Windows, directo a la bandeja
+uk Запуск разом із Windows, одразу в трей
+
+@sound
+ru Звук
+en Sound
+zh 声音
+ja サウンド
+ko 소리
+de Ton
+es Sonido
+uk Звук
+
+@sound_hint
+ru Щелчок при переключении
+en Click sound when toggling
+zh 切换时发出提示音
+ja 切り替え時にクリック音
+ko 전환할 때 클릭음
+de Klickton beim Umschalten
+es Clic al cambiar
+uk Клацання під час перемикання
+
+@tray_click
+ru Клик в трее
+en Tray click
+zh 托盘点击
+ja トレイのクリック
+ko 트레이 클릭
+de Tray-Klick
+es Clic en bandeja
+uk Клік у треї
+
+@tray_click_hint
+ru Что делает ЛКМ по значку в трее
+en What a left click on the tray icon does
+zh 左键点击托盘图标时的操作
+ja トレイアイコンを左クリックしたときの動作
+ko 트레이 아이콘을 왼쪽 클릭했을 때 동작
+de Was ein Linksklick aufs Tray-Symbol macht
+es Qué hace el clic izquierdo en el icono
+uk Що робить ЛКМ по значку в треї
+
+@opt_mic
+ru Микрофон
+en Mic
+zh 麦克风
+ja マイク
+ko 마이크
+de Mikro
+es Micro
+uk Мікрофон
+
+@opt_window
+ru Окно
+en Window
+zh 窗口
+ja ウィンドウ
+ko 창
+de Fenster
+es Ventana
+uk Вікно
+
+@tray_icon
+ru Значок в трее
+en Tray icon
+zh 托盘图标
+ja トレイアイコン
+ko 트레이 아이콘
+de Tray-Symbol
+es Icono
+uk Значок у треї
+
+@tray_icon_hint
+ru Бейдж не спутать с системным значком микрофона
+en The badge won't be confused with the system mic icon
+zh 徽章样式不会和系统麦克风图标混淆
+ja バッジならシステムのマイクアイコンと紛れません
+ko 배지는 시스템 마이크 아이콘과 헷갈리지 않습니다
+de Das Badge verwechselt man nicht mit dem System-Mikrosymbol
+es La insignia no se confunde con el icono del sistema
+uk Бейдж не сплутати із системним значком мікрофона
+
+@opt_badge
+ru Бейдж
+en Badge
+zh 徽章
+ja バッジ
+ko 배지
+de Badge
+es Insignia
+uk Бейдж
+
+@opt_glyph
+ru Иконка
+en Icon
+zh 图标
+ja アイコン
+ko 아이콘
+de Symbol
+es Icono
+uk Іконка
+
+@taskbar_icon
+ru Значок на панели
+en Taskbar icon
+zh 任务栏图标
+ja タスクバー
+ko 작업 표시줄
+de Taskleiste
+es Barra de tareas
+uk Значок на панелі
+
+@taskbar_icon_hint
+ru Чтобы значок не прятался под стрелку
+en So the icon doesn't hide under the arrow
+zh 让图标不被折叠到箭头里
+ja アイコンが矢印の中に隠れないように
+ko 아이콘이 화살표 안에 숨지 않도록
+de Damit das Symbol nicht unter dem Pfeil verschwindet
+es Para que el icono no se esconda bajo la flecha
+uk Щоб значок не ховався під стрілку
+
+@open
+ru Открыть
+en Open
+zh 打开
+ja 開く
+ko 열기
+de Öffnen
+es Abrir
+uk Відкрити
+
+@hold_state
+ru Держать состояние
+en Hold state
+zh 锁定状态
+ja 状態を保持
+ko 상태 유지
+de Zustand halten
+es Mantener estado
+uk Тримати стан
+
+@hold_state_hint
+ru Другие программы не смогут переключить микрофон
+en Other apps can't toggle the mic
+zh 其他程序无法切换麦克风
+ja 他のアプリはマイクを切り替えられません
+ko 다른 프로그램이 마이크를 전환할 수 없습니다
+de Andere Programme können das Mikro nicht umschalten
+es Otras apps no podrán cambiar el micro
+uk Інші програми не зможуть перемкнути мікрофон
+
+@language
+ru Язык
+en Language
+zh 语言
+ja 言語
+ko 언어
+de Sprache
+es Idioma
+uk Мова
+
+@quit
+ru Выйти
+en Quit
+zh 退出
+ja 終了
+ko 종료
+de Beenden
+es Salir
+uk Вийти
+
+@all_mics
+ru Все микрофоны
+en All microphones
+zh 所有麦克风
+ja すべてのマイク
+ko 모든 마이크
+de Alle Mikrofone
+es Todos los micrófonos
+uk Усі мікрофони
+
+@default_mic
+ru По умолчанию
+en Default
+zh 默认
+ja 既定
+ko 기본값
+de Standard
+es Predeterminado
+uk За замовчуванням
+
+@nothing_connected
+ru Ничего не подключено
+en Nothing connected
+zh 未连接设备
+ja 接続なし
+ko 연결된 장치 없음
+de Nichts verbunden
+es Nada conectado
+uk Нічого не підключено
+
+@connected_n
+ru Подключено: {}
+en Connected: {}
+zh 已连接：{}
+ja 接続中: {}
+ko 연결됨: {}
+de Verbunden: {}
+es Conectados: {}
+uk Підключено: {}
+
+@none
+ru Нет
+en None
+zh 无
+ja なし
+ko 없음
+de Keins
+es Ninguno
+uk Немає
+
+@selected_mic
+ru Выбранный микрофон
+en Selected microphone
+zh 所选麦克风
+ja 選択したマイク
+ko 선택한 마이크
+de Gewähltes Mikrofon
+es Micrófono elegido
+uk Вибраний мікрофон
+
+@disconnected
+ru Не подключён
+en Not connected
+zh 未连接
+ja 未接続
+ko 연결 안 됨
+de Nicht verbunden
+es Desconectado
+uk Не підключено
+
+@microphone
+ru Микрофон
+en Microphone
+zh 麦克风
+ja マイク
+ko 마이크
+de Mikrofon
+es Micrófono
+uk Мікрофон
+
+@tip_on
+ru Hush: микрофон включен
+en Hush: mic on
+zh Hush：麦克风已开启
+ja Hush: マイク オン
+ko Hush: 마이크 켜짐
+de Hush: Mikro an
+es Hush: micro activado
+uk Hush: мікрофон увімкнено
+
+@tip_off
+ru Hush: микрофон выключен
+en Hush: mic muted
+zh Hush：麦克风已关闭
+ja Hush: マイク オフ
+ko Hush: 마이크 꺼짐
+de Hush: Mikro stumm
+es Hush: micro silenciado
+uk Hush: мікрофон вимкнено
+
+@tip_none
+ru Hush: микрофон не найден
+en Hush: no microphone
+zh Hush：未找到麦克风
+ja Hush: マイクなし
+ko Hush: 마이크 없음
+de Hush: kein Mikrofon
+es Hush: sin micrófono
+uk Hush: мікрофон не знайдено
+
+@menu_unmute
+ru Включить микрофон
+en Unmute
+zh 开启麦克风
+ja マイクをオン
+ko 마이크 켜기
+de Mikro einschalten
+es Activar micro
+uk Увімкнути мікрофон
+
+@menu_mute
+ru Выключить микрофон
+en Mute
+zh 关闭麦克风
+ja マイクをオフ
+ko 마이크 끄기
+de Mikro stummschalten
+es Silenciar micro
+uk Вимкнути мікрофон
+
+@menu_open
+ru Открыть Hush
+en Open Hush
+zh 打开 Hush
+ja Hush を開く
+ko Hush 열기
+de Hush öffnen
+es Abrir Hush
+uk Відкрити Hush
+
+@menu_hide_overlay
+ru Скрыть оверлей
+en Hide overlay
+zh 隐藏悬浮图标
+ja オーバーレイを隠す
+ko 오버레이 숨기기
+de Overlay ausblenden
+es Ocultar overlay
+uk Сховати оверлей
+
+@balloon_title
+ru Hush в трее
+en Hush is in the tray
+zh Hush 在托盘中运行
+ja Hush はトレイにいます
+ko Hush가 트레이에 있습니다
+de Hush läuft im Tray
+es Hush sigue en la bandeja
+uk Hush у треї
+
+@balloon_text
+ru ЛКМ - вкл/выкл микрофон\nПКМ - меню
+en Left click - toggle mic\nRight click - menu
+zh 左键 - 切换麦克风\n右键 - 菜单
+ja 左クリック - マイク切り替え\n右クリック - メニュー
+ko 왼쪽 클릭 - 마이크 전환\n오른쪽 클릭 - 메뉴
+de Linksklick - Mikro umschalten\nRechtsklick - Menü
+es Clic izq. - cambiar micro\nClic der. - menú
+uk ЛКМ - увімк/вимк мікрофон\nПКМ - меню
+
+@act_toggle
+ru Вкл / выкл микрофон
+en Toggle mic
+zh 切换麦克风
+ja マイク切り替え
+ko 마이크 전환
+de Mikro umschalten
+es Activar / silenciar
+uk Увімк / вимк мікрофон
+
+@act_ptt
+ru Рация
+en Push to talk
+zh 按键说话
+ja プッシュトゥトーク
+ko 눌러서 말하기
+de Push-to-Talk
+es Pulsar para hablar
+uk Рація
+
+@act_ptt_hint
+ru Держишь - говоришь
+en Hold to talk
+zh 按住说话
+ja 押している間だけ話せる
+ko 누르는 동안 말하기
+de Halten zum Sprechen
+es Mantén para hablar
+uk Тримаєш - говориш
+
+@act_overlay_hint
+ru Показать / скрыть
+en Show / hide
+zh 显示 / 隐藏
+ja 表示 / 非表示
+ko 표시 / 숨기기
+de Ein- / ausblenden
+es Mostrar / ocultar
+uk Показати / сховати
+
+@act_lock
+ru Закрепить оверлей
+en Lock overlay
+zh 锁定悬浮图标
+ja オーバーレイを固定
+ko 오버레이 고정
+de Overlay fixieren
+es Fijar overlay
+uk Закріпити оверлей
+
+@act_window
+ru Открыть окно
+en Open window
+zh 打开窗口
+ja ウィンドウを開く
+ko 창 열기
+de Fenster öffnen
+es Abrir ventana
+uk Відкрити вікно
+
+@act_menu
+ru Меню
+en Menu
+zh 菜单
+ja メニュー
+ko 메뉴
+de Menü
+es Menú
+uk Меню
+
+@act_menu_hint
+ru Меню трея у курсора
+en Tray menu at the cursor
+zh 在光标处打开托盘菜单
+ja カーソル位置にトレイメニュー
+ko 커서 위치에 트레이 메뉴
+de Tray-Menü am Mauszeiger
+es Menú de bandeja en el cursor
+uk Меню трею біля курсора
+
+@key_taken
+ru Занято другой программой
+en Taken by another app
+zh 已被其他程序占用
+ja 他のアプリが使用中
+ko 다른 프로그램이 사용 중
+de Von anderem Programm belegt
+es Ocupado por otra app
+uk Зайнято іншою програмою
+
+@mouse_wheel
+ru Колесо
+en Wheel
+zh 中键
+ja ホイール
+ko 휠
+de Mausrad
+es Rueda
+uk Коліщатко
+
+@mouse_4
+ru Мышь 4
+en Mouse 4
+zh 鼠标 4
+ja マウス 4
+ko 마우스 4
+de Maus 4
+es Ratón 4
+uk Миша 4
+
+@mouse_5
+ru Мышь 5
+en Mouse 5
+zh 鼠标 5
+ja マウス 5
+ko 마우스 5
+de Maus 5
+es Ratón 5
+uk Миша 5
+
+@style_0
+ru Контур
+en Outline
+zh 线条
+ja 線
+ko 윤곽
+de Kontur
+es Contorno
+uk Контур
+
+@style_1
+ru Заливка
+en Filled
+zh 填充
+ja 塗り
+ko 채움
+de Gefüllt
+es Relleno
+uk Заливка
+
+@style_2
+ru Кружок
+en Circle
+zh 圆形
+ja 円
+ko 원
+de Kreis
+es Círculo
+uk Кружечок
+
+@style_3
+ru Тёмный кружок
+en Dark circle
+zh 深色圆形
+ja ダークの円
+ko 어두운 원
+de Dunkler Kreis
+es Círculo oscuro
+uk Темний кружечок
+
+@style_4
+ru Кольцо
+en Ring
+zh 圆环
+ja リング
+ko 링
+de Ring
+es Anillo
+uk Кільце
+
+@style_5
+ru Плашка
+en Tile
+zh 方块
+ja タイル
+ko 타일
+de Kachel
+es Placa
+uk Плашка
+
+@style_6
+ru Точка
+en Dot
+zh 圆点
+ja ドット
+ko 점
+de Punkt
+es Punto
+uk Крапка
+
+@style_7
+ru Эквалайзер
+en Equalizer
+zh 均衡器
+ja イコライザー
+ko 이퀄라이저
+de Equalizer
+es Ecualizador
+uk Еквалайзер
+
+@style_8
+ru Студийный
+en Studio
+zh 录音室
+ja スタジオ
+ko 스튜디오
+de Studio
+es Estudio
+uk Студійний
+
+@style_9
+ru Неон
+en Neon
+zh 霓虹
+ja ネオン
+ko 네온
+de Neon
+es Neón
+uk Неон
